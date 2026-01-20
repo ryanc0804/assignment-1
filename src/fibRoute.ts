@@ -5,10 +5,10 @@ import fibonacci from "./fib";
 
 export default (req: Request, res: Response) => {
   const { num } = req.params;
-  const numStr = num as string;
+  const numStr = typeof num === "string" ? num : String(num);
 
-  const fibN = fibonacci(parseInt(numStr));
-  let result = `fibonacci(${numStr}) is ${fibN}`;
+  const fibN: number = fibonacci(parseInt(numStr, 10));
+  let result = `fibonacci(${numStr}) is ${String(fibN)}`;
 
   if (fibN < 0) {
     result = `fibonacci(${numStr}) is undefined`;
