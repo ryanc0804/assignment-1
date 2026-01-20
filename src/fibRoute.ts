@@ -3,15 +3,18 @@
 import { Request, Response } from "express";
 import fibonacci from "./fib";
 
-export default (req: Request, res: Response) => {
-  const { num } = req.params;
-  const numStr = typeof num === "string" ? num : String(num);
+export default (req: Request, res: Response): void => {
+  const num = req.params.num;
+  if (typeof num !== "string") {
+    res.status(400).send("Invalid parameter");
+    return;
+  }
 
-  const fibN: number = fibonacci(parseInt(numStr, 10));
-  let result = `fibonacci(${numStr}) is ${String(fibN)}`;
+  const fibN: number = fibonacci(parseInt(num, 10));
+  let result = `fibonacci(${num}) is ${String(fibN)}`;
 
   if (fibN < 0) {
-    result = `fibonacci(${numStr}) is undefined`;
+    result = `fibonacci(${num}) is undefined`;
   }
 
   res.send(result);
